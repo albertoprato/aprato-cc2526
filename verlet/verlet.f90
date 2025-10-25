@@ -21,16 +21,10 @@ PROGRAM verlet
   DO i = 1, n
     x(i+1) = x(i)+ tau * vx(i) + tau**2 * fx / 2 * m
     vx(i+1) = vx(i)+ tau / (2 * m) * (fx+fx)    
-    PRINT *, x(i)
-  ENDDO
-  DO i = 1, n
     y(i+1) = y(i) + tau * vy(i) + tau**2 * fy / 2 * m
     vy(i+1) = vy(i) + tau / (2 * m) * (fy+fy)
-    PRINT *, y(i)
-  ENDDO
-  DO i = 1, n
     z(i+1) = z(i) + tau * vz(i) + tau**2 * fz / 2 * m
     vz(i+1) = vz(i) + tau / (2 * m) * (fz + fz)
-    PRINT *, z(i)
+    PRINT *, x(i), y(i), z(i) 
   ENDDO
 END PROGRAM verlet
