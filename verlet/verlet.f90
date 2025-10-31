@@ -11,12 +11,12 @@ PROGRAM verlet
   fx = 0.0_wp
   fy = 0.1_wp
   fz = 0.0_wp
-  vx(1)=0.0_wp
-  vy(1)=0.0_wp
-  vz(1)=0.0_wp
-  x(1)=0.0_wp
-  y(1)=0.0_wp
-  z(1)=0.0_wp
+  vx(1) = 0.0_wp
+  vy(1) = 0.0_wp
+  vz(1) = 0.0_wp
+  x(1) = 0.0_wp
+  y(1) = 0.0_wp
+  z(1) = 0.0_wp
 
   DO i = 1, n
     x(i+1) = x(i)+ tau * vx(i) + tau**2 * fx / 2 * m
