@@ -10,7 +10,7 @@ PROGRAM verlet
   fx = 0.0_wp
   fy = 0.1_wp
   fz = 0.0_wp
-  vx(1 )= 0.0_wp
+  vx(1) = 0.0_wp
   vy(1) = 0.0_wp
   vz(1) = 0.0_wp
   x(1) = 0.0_wp
