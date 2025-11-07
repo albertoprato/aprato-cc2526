@@ -2,7 +2,7 @@ PROGRAM verlet
   IMPLICIT NONE
   INTEGER, PARAMETER :: wp = SELECTED_REAL_KIND(p=13, r=300)
   INTEGER :: n, i, j
-  REAL(KIND=wp) :: t, tau, m, fx, fy, fz, K, U, E
+  REAL(KIND=wp) :: t, tau, m, fx, fy, fz, K, U, E, ypre, ycur, tolleranza, diff
   REAL(KIND=wp), DIMENSION(:), ALLOCATABLE :: x, vx, y, vy, z, vz
   
   t = 120.0_wp
@@ -11,21 +11,21 @@ PROGRAM verlet
   fy = 0.1_wp
   fz = 0.0_wp
   
-  ! Tabella per Output
+  ypre = 0.0_wp
+
+  ! Tabella Output
   PRINT '(A)', REPEAT("=", 90)
   PRINT '(A)', "   Simulazione Verlet - Particella sotto forza costante"
   PRINT '(A)', REPEAT("=", 90)
-  PRINT '(A6, A10, A15, A15, A15, A15)', &
-        "Steps", "Tau", "K (kin)", "U (pot)", "E (tot)", "y(final)"
+  PRINT '(A6, A10, A15, A15, A15, A15, A15)', &
+        "Steps", "Tau", "K (kin)", "U (pot)", "E (tot)", "y(final)", "diff"
   PRINT '(A)', REPEAT("-", 90)
   
   ! Loop sui timestep
-  DO j = 0, 30, 1
-    tau = 0.1_wp + REAL(j, KIND=wp) / 2
+  DO j = 0, 10, 1
+    tau = 0.001_wp + REAL(j, KIND=wp) / 1000
     n = NINT(t / tau)
     
-    ! Allocazione dinamica
-    IF (ALLOCATED(x)) DEALLOCATE(x, y, z, vx, vy, vz)
     ALLOCATE(x(n+1), y(n+1), z(n+1), vx(n+1), vy(n+1), vz(n+1))
     
     ! Condizioni iniziali
@@ -48,18 +48,27 @@ PROGRAM verlet
       vz(i+1) = vz(i) + tau / (2.0_wp * m) * (fz + fz)
     END DO
     
-    ! Calcolo energie
-    K = (m * vy(n+1)**2) / 2.0_wp
-    U = -fy * y(n+1)
-    E = K + U
+    ! Tolleranza
+    ycur = y(n+1) 
+    diff = ycur - ypre
+    tolleranza = 0.01_wp
     
-    ! Output formattato
-    PRINT '(I6, F10.2, 4ES15.6)', n, tau, K, U, E, y(n+1)
+    IF (ABS(diff) < tolleranza) THEN
+            
+      ! Energie
+      K = (m * vy(n+1)**2) / 2.0_wp
+      U = -fy * y(n+1)
+      E = K + U
+    
+      ! Output formattato
+      PRINT '(I6, 1X, F10.2, 1X, 5ES15.6)', n, tau, K, U, E, y(n+1), diff
+    END IF
+    
+    ypre = ycur
+
+    DEALLOCATE(x, y, z, vx, vy, vz)
   END DO
   
   PRINT '(A)', REPEAT("=", 90)
-  
-  ! Deallocazione
-  DEALLOCATE(x, y, z, vx, vy, vz)
   
 END PROGRAM verlet
