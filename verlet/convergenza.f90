@@ -50,16 +50,21 @@ PROGRAM verlet
     
     ! Tolleranza
     ycur = y(n+1) 
-    diff = ABS(ycur - ypre)
+    diff = ycur - ypre
     tolleranza = 0.01_wp
-            
-    ! Energie
-    K = (m * vy(n+1)**2) / 2.0_wp
-    U = -fy * y(n+1)
-    E = K + U
     
-    ! Output formattato
-    PRINT '(I6, 1X, F10.2, 1X, 5ES15.6)', n, tau, K, U, E, y(n+1)
+    IF (ABS(diff) < tolleranza) THEN
+            
+      ! Energie
+      K = (m * vy(n+1)**2) / 2.0_wp
+      U = -fy * y(n+1)
+      E = K + U
+    
+      ! Output formattato
+      PRINT '(I6, 1X, F10.2, 1X, 5ES15.6)', n, tau, K, U, E, y(n+1), diff
+    END IF
+    
+    ypre = ycur
 
     DEALLOCATE(x, y, z, vx, vy, vz)
 
