@@ -23,7 +23,7 @@ PROGRAM verlet
   
   ! Loop sui timestep
   DO j = 0, 20, 1
-    tau = 0.01_wp + REAL(j, KIND = wp)
+    tau = 1.0_wp + REAL(j, KIND = wp)
     n = NINT(t / tau)
     
     ALLOCATE(x(n+1), y(n+1), z(n+1), vx(n+1), vy(n+1), vz(n+1))
