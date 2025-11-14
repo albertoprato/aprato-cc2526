@@ -1,3 +1,3 @@
 # aprato-cc2526
 
-Trial
+Repo of Coding in Chemistry 2025/26
