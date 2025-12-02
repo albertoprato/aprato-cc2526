@@ -14,7 +14,7 @@ PROGRAM verlet
 
   ! Tabella Output
   PRINT '(A)', REPEAT("=", 95)
-  PRINT '(A)', "   Simulazione Verlet - Particella sotto forza costante"
+  PRINT '(A)', "   Verlet Algorithm - Classical Trajectory with Constant Force"
   PRINT '(A)', REPEAT("=", 95)
   PRINT '(A6, A10, A15, A15, A15, A20)', &
         "Steps", "Tau", "K (final)", "U (final)", "y(final)", "dE (E_fin-E_init)"
@@ -74,7 +74,6 @@ PROGRAM verlet
   
   PRINT '(A)', REPEAT("=", 95)
   PRINT '(A)', ""
-  PRINT '(A)', "Nota: dE = E(finale) - E(iniziale) dovrebbe essere ~0 per conservazione energia"
 
 
 CONTAINS
