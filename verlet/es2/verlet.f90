@@ -2,12 +2,8 @@ PROGRAM verlet
   IMPLICIT NONE
   INTEGER, PARAMETER :: wp = SELECTED_REAL_KIND(p=13, r=300)
   INTEGER :: n, i, j
-<<<<<<< HEAD
-  REAL(KIND=wp) :: t, tau, m, fx, fy, fz, K, U, E, ypre, ycur, tolleranza, diff
-=======
   REAL(KIND=wp) :: t, tau, m, fx, fy, fz, K, U, E
   REAL(KIND=wp) :: K_init, U_init, E_init, K_final, U_final, E_final, dE
->>>>>>> d4b3afd21b61e2df2ec0fbea5fb10f0a9fa28c1a
   REAL(KIND=wp), DIMENSION(:), ALLOCATABLE :: x, vx, y, vy, z, vz
   
   t = 120.0_wp
@@ -15,18 +11,6 @@ PROGRAM verlet
   fx = 0.0_wp
   fy = 0.1_wp
   fz = 0.0_wp
-<<<<<<< HEAD
-  
-  ypre = 0.0_wp
-
-  ! Tabella Output
-  PRINT '(A)', REPEAT("=", 90)
-  PRINT '(A)', "   Simulazione Verlet - Particella sotto forza costante"
-  PRINT '(A)', REPEAT("=", 90)
-  PRINT '(A6, A10, A15, A15, A15, A15, A15)', &
-        "Steps", "Tau", "K (kin)", "U (pot)", "E (tot)", "y(final)", "diff"
-  PRINT '(A)', REPEAT("-", 90)
-=======
 
   ! Tabella Output
   PRINT '(A)', REPEAT("=", 95)
@@ -35,7 +19,6 @@ PROGRAM verlet
   PRINT '(A6, A10, A15, A15, A15, A20)', &
         "Steps", "Tau", "K (final)", "U (final)", "y(final)", "dE (E_fin-E_init)"
   PRINT '(A)', REPEAT("-", 95)
->>>>>>> d4b3afd21b61e2df2ec0fbea5fb10f0a9fa28c1a
   
   ! Loop sui timestep
   DO j = 0, 20, 1
@@ -52,8 +35,6 @@ PROGRAM verlet
     vy(1) = 0.0_wp
     vz(1) = 0.0_wp
     
-<<<<<<< HEAD
-=======
     ! Energia iniziale (t=0)
     K_init = kinetic_energy(m, vx(1), vy(1), vz(1))
     U_init = 0.0_wp
@@ -61,7 +42,6 @@ PROGRAM verlet
     
     U = U_init
 
->>>>>>> d4b3afd21b61e2df2ec0fbea5fb10f0a9fa28c1a
     ! Algoritmo Verlet
     DO i = 1, n
       x(i+1) = x(i) + tau * vx(i) + tau**2 * fx / (2.0_wp * m)
@@ -72,22 +52,6 @@ PROGRAM verlet
       
       z(i+1) = z(i) + tau * vz(i) + tau**2 * fz / (2.0_wp * m)
       vz(i+1) = vz(i) + tau / (2.0_wp * m) * (fz + fz)
-<<<<<<< HEAD
-    END DO
-    
-    ! Tolleranza
-    ycur = y(n+1) 
-    diff = ABS(ycur - ypre)
-    tolleranza = 0.01_wp
-            
-    ! Energie
-    K = (m * vy(n+1)**2) / 2.0_wp
-    U = -fy * y(n+1)
-    E = K + U
-    
-    ! Output formattato
-    PRINT '(I6, 1X, F10.2, 1X, 5ES15.6)', n, tau, K, U, E, y(n+1)
-=======
 
       U = U + potential_energy(fx, fy, fz, x(i), y(i), z(i), x(i+1), y(i+1), z(i+1))
     END DO
@@ -103,16 +67,11 @@ PROGRAM verlet
     ! Output formattato
     PRINT '(I6, 1X, F9.2, 1X, ES15.6, 1X, ES15.6, 1X, ES15.6, 1X, ES20.6)', &
            n, tau, K_final, U_final, y(n+1), dE
->>>>>>> d4b3afd21b61e2df2ec0fbea5fb10f0a9fa28c1a
 
     DEALLOCATE(x, y, z, vx, vy, vz)
 
   END DO
   
-<<<<<<< HEAD
-  PRINT '(A)', REPEAT("=", 90)
-  
-=======
   PRINT '(A)', REPEAT("=", 95)
   PRINT '(A)', ""
   PRINT '(A)', "Nota: dE = E(finale) - E(iniziale) dovrebbe essere ~0 per conservazione energia"
@@ -139,5 +98,4 @@ CONTAINS
        dU = fx * (x_kp1 - x_k) + fy * (y_kp1 - y_k) + fz * (z_kp1 - z_k)
    END FUNCTION potential_energy
 
->>>>>>> d4b3afd21b61e2df2ec0fbea5fb10f0a9fa28c1a
 END PROGRAM verlet
