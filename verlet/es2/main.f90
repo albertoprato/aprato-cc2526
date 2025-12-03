@@ -9,6 +9,8 @@ PROGRAM main
   REAL(KIND=wp), DIMENSION(:,:), ALLOCATABLE :: pos, vel, force, force_new
   REAL(KIND=wp), DIMENSION(:), ALLOCATABLE :: mass
   
+  REAL(KIND=wp) :: kin, V, e_tot, V_sq
+  
   REAL(KIND=wp) :: inp_m, inp_x, inp_y, inp_z, inp_vx, inp_vy, inp_vz
 
   ! Read Input
@@ -34,15 +36,16 @@ PROGRAM main
   CLOSE(10)
   
   PRINT *, "------------------------------------------------"
-  PRINT *, "System initialized with ", n, " particles."
-  PRINT *, "Steps:", nk, " dt:", tau
+  PRINT *, "System with ", n, " particles."
+  PRINT *, "Step | Total Energy"
   PRINT *, "------------------------------------------------"
 
   ! Calculate the forces at t = 0
-  CALL force_calculation(n, sigma, epsilon, pos, force) 
+  CALL force_calculation(n, sigma, epsilon, pos, force, V) 
 
   ! Verlet Algorithm
   OPEN(UNIT=20, FILE='trajectory.xyz', STATUS='replace')
+  OPEN(UNIT=21, FILE='energy.dat', STATUS='replace')
   
   ! Step 1
   DO step = 1, nk
@@ -54,7 +57,7 @@ PROGRAM main
     END DO
     
     ! Step 2
-    CALL force_calculation(n, sigma, epsilon, pos, force)
+    CALL force_calculation(n, sigma, epsilon, pos, force_new, V)
     
     ! Step 3
     DO i = 1, n
@@ -68,14 +71,21 @@ PROGRAM main
 
     ! Output Results (e.g., every 100 steps)
     IF (mod(step, 100) == 0) THEN
-
-      ! Print Distance between atom 1 and 2 to check oscillation
-      ! WRITE(*, '(A, I5, A, F15.8)') "Step: ", step, " | Distance 1-2: ", &
-      !      sqrt((pos(1,1)-pos(2,1))**2 + (pos(1,2)-pos(2,2))**2 + (pos(1,3)-pos(2,3))**2)
-             
+      
+      kin = 0.0_wp
+      DO i = 1, n
+        v_sq = vel(i,1)**2 + vel(i,2)**2 + vel(i,3)**2
+        kin = kin + 0.5_wp * mass(i) * v_sq
+      END DO
+      
+      e_tot = kin + V
+       
+      WRITE(*, '(I5, 3(1X, E14.7))') step, e_tot
+      WRITE(21, '(I8, 3(1X, E16.8))') step, e_tot 
+ 
       ! VMD XYZ format
       WRITE(20, *) n
-      WRITE(20, '(A, I8)') "Step: ", step
+      WRITE(20, '(A, I7)') "Step: ", step
       DO i = 1, n
         WRITE(20, '(A, 3F15.8)') "Ne ", pos(i, 1), pos(i, 2), pos(i, 3)
       END DO 
@@ -84,10 +94,10 @@ PROGRAM main
   END DO
 
   CLOSE(20)
+  CLOSE(21)
   
   PRINT *, "------------------------------------------------"
-  PRINT *, "Simulation completed."
-  PRINT *, "Final Z coordinate of Atom 1: ", pos(1, 3)
+  PRINT *, "Final z coordinate of Atom 1: ", pos(1, 3)
   PRINT *, "------------------------------------------------"
   
   DEALLOCATE(pos, vel, force, force_new, mass)
