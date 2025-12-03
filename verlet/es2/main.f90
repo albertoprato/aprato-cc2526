@@ -80,12 +80,12 @@ PROGRAM main
       
       e_tot = kin + V
        
-      WRITE(*, '(I5, 3(1X, E14.7))') step, e_tot
+      WRITE(*, '(I6, 3(1X, E14.7))') step, e_tot
       WRITE(21, '(I8, 3(1X, E16.8))') step, e_tot 
  
       ! VMD XYZ format
       WRITE(20, *) n
-      WRITE(20, '(A, I7)') "Step: ", step
+      WRITE(20, '(A, I8)') "Step: ", step
       DO i = 1, n
         WRITE(20, '(A, 3F15.8)') "Ne ", pos(i, 1), pos(i, 2), pos(i, 3)
       END DO 
@@ -97,7 +97,7 @@ PROGRAM main
   CLOSE(21)
   
   PRINT *, "------------------------------------------------"
-  PRINT *, "Final z coordinate of Atom 1: ", pos(1, 3)
+  WRITE(*, '(A, F20.10)') "Final z coordinate of Atom 1: ", pos(1, 3)
   PRINT *, "------------------------------------------------"
   
   DEALLOCATE(pos, vel, force, force_new, mass)
