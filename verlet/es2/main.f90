@@ -36,7 +36,7 @@ PROGRAM main
   CLOSE(10)
   
   PRINT *, "------------------------------------------------"
-  PRINT *, "System with ", n, " particles."
+  PRINT *, "System with", n, "particles"
   PRINT *, "Step | Total Energy"
   PRINT *, "------------------------------------------------"
 
@@ -70,7 +70,7 @@ PROGRAM main
     force = force_new
 
     ! Output Results (e.g., every 100 steps)
-    IF (mod(step, 100) == 0) THEN
+    IF (MOD(step, 100) .EQ. 0) THEN
       
       kin = 0.0_wp
       DO i = 1, n

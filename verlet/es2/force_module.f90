@@ -1,7 +1,8 @@
 MODULE force_module                                                       
   USE kinds, ONLY: wp => dp                                           
-  IMPLICIT NONE                                                                                                  
-                                                                      
+  IMPLICIT NONE
+
+  PUBLIC :: force_calculation                                                                                                                                           
   CONTAINS                                                           
                                                                       
     SUBROUTINE force_calculation(n, sigma, epsilon, pos, forces, V)
