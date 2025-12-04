@@ -16,7 +16,7 @@ MODULE force_module
       REAL (KIND=wp) :: r2, r, r_inv, sigma_r
       REAL (KIND=wp) :: V_prime, f_component
       REAL (KIND=wp) :: term6, term12
-      REAL (KIND=wp) :: diff(3) ! To store x_ab, y_ab, z_ab
+      REAL (KIND=wp) :: diff(3)
 
       ! Initialize outputs
       forces = 0.0_wp
