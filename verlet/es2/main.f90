@@ -81,7 +81,7 @@ PROGRAM main
       e_tot = kin + V
        
       WRITE(*, '(I6, 3(1X, E14.7))') step, e_tot
-      WRITE(21, '(I8, 3(1X, E16.8))') step, e_tot 
+      WRITE(21, '(I6, 3(1X, E16.8))') step, e_tot 
  
       ! VMD XYZ format
       WRITE(20, *) n
