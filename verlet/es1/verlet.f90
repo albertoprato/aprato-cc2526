@@ -16,7 +16,7 @@ PROGRAM verlet
   PRINT '(A)', REPEAT("=", 95)
   PRINT '(A)', "   Verlet Algorithm - Classical Trajectory with Constant Force"
   PRINT '(A)', REPEAT("=", 95)
-  PRINT '(A6, A10, A15, A15, A15, A20)', &
+  PRINT '(A6, A10, A15, A15, A15, A15)', &
         "Steps", "Tau", "K (final)", "U (final)", "y(final)", "dE (E_fin-E_init)"
   PRINT '(A)', REPEAT("-", 95)
   
