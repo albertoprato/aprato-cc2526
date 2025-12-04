@@ -2,10 +2,16 @@ MODULE cubes
   USE kinds, ONLY: wp => dp
   IMPLICIT NONE
 
+
   TYPE, PUBLIC :: cube
     PRIVATE
     CHARACTER (LEN=72) :: str1
-    ! fill
+    CHARACTER (LEN=72) :: str2
+    REAL (KIND=wp) :: xmin, ymin, zmin, dx, dy, dz
+    INTEGER :: nx, ny, nz, natom
+    INTEGER, DIMENSION(:), POINTER :: zahl
+    REAL (KIND=wp), DIMENSION(:), POINTER :: chrg, x, y, z
+    REAL (KIND=wp), DIMENSION(:), POINTER :: array
   END TYPE cube
 
   PUBLIC :: cube_get, &
